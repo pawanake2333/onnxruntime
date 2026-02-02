@@ -197,3 +197,6 @@ Package.resolved
 .build/
 .swiftpm/
 repros/
+
+test_run_env/
+cmake/CMakeUserPresets.json

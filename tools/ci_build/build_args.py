@@ -765,6 +765,10 @@ def add_execution_provider_args(parser: argparse.ArgumentParser) -> None:
     azure_group = parser.add_argument_group("Azure Execution Provider")
     azure_group.add_argument("--use_azure", action="store_true", help="Enable Azure EP.")
 
+    # --- neuropilot ---
+    neuropilot_group = parser.add_argument_group("MTK Neuropilot Runtime Execution Provider")
+    neuropilot_group.add_argument("--use_neuropilot", action="store_true", help="Enable Neuropilot EP.")
+    neuropilot_group.add_argument("--neuropilot_sdk_root", help="Path to Neuropilot SDK directory.")
 
 def add_other_feature_args(parser: argparse.ArgumentParser) -> None:
     """Adds arguments for other miscellaneous features."""

@@ -1248,6 +1248,15 @@ static std::shared_ptr<IExecutionProviderFactory> CreateExecutionProviderFactory
                           << "https://onnxruntime.ai/docs/execution-providers/QNN-ExecutionProvider.html"
                           << " to ensure all dependencies are met.";
 #endif
+  } else if (type == kNeuropilotExecutionProvider) {
+#ifdef USE_NEUROPILOT
+    auto cit = provider_options_map.find(type);
+    auto neuropilot_factory =  onnxruntime::NeuropilotProviderFactoryCreator::Create(
+      cit == provider_options_map.end() ? ProviderOptions{} : cit->second, &session_options);
+    if (neuropilot_factory) {
+      return neuropilot_factory;
+    }
+#endif
   } else {
     // check whether it is a dynamic load EP:
     const auto it = provider_options_map.find(type);

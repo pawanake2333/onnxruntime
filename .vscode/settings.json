@@ -14,5 +14,8 @@
         "-build/include_subdir",
         "-runtime/references"
     ],
-    "C_Cpp.autoAddFileAssociations": false
+    "C_Cpp.autoAddFileAssociations": false,
+    "cmake.sourceDirectory": "${workspaceFolder}/cmake",
+    "cmake.presets.path": "${workspaceFolder}/.vscode/CMakeUserPresets.json",
+    "terminal.integrated.defaultProfile.osx": "bash"
 }

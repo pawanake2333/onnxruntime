@@ -235,6 +235,10 @@ if (onnxruntime_BUILD_QNN_EP_STATIC_LIB)
   list(APPEND onnxruntime_INTERNAL_PROVIDER_LIBRARIES onnxruntime_providers_qnn)
 endif()
 
+if(onnxruntime_USE_NEUROPILOT)
+  list(APPEND onnxruntime_INTERNAL_PROVIDER_LIBRARIES onnxruntime_providers_neuropilot)
+endif()
+
 # This list is a reversed topological ordering of library dependencies.
 # Earlier entries may depend on later ones. Later ones should not depend on earlier ones.
 set(onnxruntime_INTERNAL_LIBRARIES

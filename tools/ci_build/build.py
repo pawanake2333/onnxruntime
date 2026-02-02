@@ -1053,6 +1053,12 @@ def generate_build_tree(
     if args.use_lock_free_queue:
         add_default_definition(cmake_extra_defines, "onnxruntime_USE_LOCK_FREE_QUEUE", "ON")
 
+    if args.use_neuropilot:
+        add_default_definition(cmake_extra_defines, "onnxruntime_USE_NEUROPILOT", "ON")
+        if args.neuropilot_sdk_root is None or os.path.exists(args.neuropilot_sdk_root) is False:
+            raise BuildError("neuropilot_sdk_root=" + args.neuropilot_sdk_root + " not valid." + " neuropilot_sdk_root paths must be specified and valid.")
+        cmake_args += ["-DNEUROPILOT_SDK_ROOT=" + args.neuropilot_sdk_root]
+
     if is_windows():
         if not args.android and not args.build_wasm:
             if args.use_cache:
