@@ -30,6 +30,8 @@ class NeuropilotExecutionProvider : public IExecutionProvider {
   common::Status Compile(const std::vector<FusedNodeAndGraph>& fused_nodes_and_graphs,
                          std::vector<NodeComputeInfo>& node_compute_funcs) override;
 
+  common::Status OnRunStart(const onnxruntime::RunOptions& run_options) override;
+
   ProviderOptions GetProviderOptions() const override;
 
   common::Status SetEpDynamicOptions(gsl::span<const char* const> /*keys*/,
@@ -42,6 +44,7 @@ class NeuropilotExecutionProvider : public IExecutionProvider {
 
  private:
   std::string model_path_;
+  std::mutex model_lock_;
   NeuroPilotRuntimeApi* runtime_api_;
   std::vector<const Node*> ep_context_nodes_;
   std::map<std::string, std::shared_ptr<NeuroPilotRuntimeWrapper>> dla_handles_;

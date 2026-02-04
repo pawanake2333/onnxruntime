@@ -100,6 +100,16 @@ common::Status NeuropilotExecutionProvider::Compile(const std::vector<FusedNodeA
   return Status::OK();
 }
 
+common::Status NeuropilotExecutionProvider::OnRunStart(const onnxruntime::RunOptions& run_options) {
+  std::vector<const char*> keys;
+  std::vector<const char*> values;
+  for (auto& [key, value] : run_options.config_options.configurations) {
+    keys.push_back(key.c_str());
+    values.push_back(value.c_str());
+  }
+  return SetEpDynamicOptions(keys, values);
+}
+
 ProviderOptions NeuropilotExecutionProvider::GetProviderOptions() const {
   return options_;
 }
@@ -110,6 +120,7 @@ common::Status NeuropilotExecutionProvider::SetEpDynamicOptions(gsl::span<const 
     return Status::OK();
   }
 
+  std::lock_guard guard{model_lock_};
   std::unordered_map<std::string, int32_t> updated_values;
   const auto& entry_values = runtime_api_->getConfigEntryValues();
   for (size_t i = 0; i < keys.size(); ++i) {
@@ -140,6 +151,10 @@ common::Status NeuropilotExecutionProvider::SetEpDynamicOptions(gsl::span<const 
   }
   if (!updated_values.empty()) {
     return Status::OK();
+  } else {
+    for (auto& [k, v] : updated_values) {
+      LOGS(*GetLogger(), INFO) << "update Neuropilot Ep option: " << k << " = " << v;
+    }
   }
   for (auto& [_, handle] : dla_handles_) {
     for (auto& [key, value] : updated_values) {
