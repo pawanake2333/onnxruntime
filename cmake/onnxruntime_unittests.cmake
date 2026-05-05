@@ -579,6 +579,7 @@ if (onnxruntime_USE_RKNPU)
 endif()
 
 set(onnxruntime_test_internal_testing_ep_src)
+
 if (NOT onnxruntime_MINIMAL_BUILD OR onnxruntime_EXTENDED_MINIMAL_BUILD)
   file(GLOB_RECURSE onnxruntime_test_providers_internal_testing_src CONFIGURE_DEPENDS
     "${TEST_SRC_DIR}/internal_testing_ep/*"
@@ -707,6 +708,10 @@ if (onnxruntime_USE_WEBGPU AND NOT onnxruntime_USE_EP_API_ADAPTERS)
   list(APPEND ONNXRUNTIME_TEST_STATIC_PROVIDER_LIBS onnxruntime_providers_webgpu)
 endif()
 
+if (onnxruntime_USE_NEUROPILOT)
+  list(APPEND ONNXRUNTIME_TEST_STATIC_PROVIDER_LIBS onnxruntime_providers_neuropilot)
+endif()
+
 set(ONNXRUNTIME_TEST_LIBS
     onnxruntime_session
     ${ONNXRUNTIME_INTEROP_TEST_LIBS}
@@ -830,6 +835,12 @@ if (onnxruntime_USE_OPENVINO)
   list(APPEND onnxruntime_test_framework_src_patterns ${TEST_SRC_DIR}/providers/openvino/*)
   list(APPEND onnxruntime_test_providers_dependencies onnxruntime_providers_openvino)
   list(APPEND onnxruntime_test_providers_dependencies onnxruntime_providers_shared)
+endif()
+
+if (onnxruntime_USE_NEUROPILOT)
+  list(APPEND onnxruntime_test_framework_src_patterns ${TEST_SRC_DIR}/providers/neuropilot/*)
+  list(APPEND onnxruntime_test_providers_dependencies onnxruntime_providers_neuropilot)
+  list(APPEND onnxruntime_test_providers_libs onnxruntime_providers_neuropilot)
 endif()
 
 file(GLOB onnxruntime_test_framework_src CONFIGURE_DEPENDS

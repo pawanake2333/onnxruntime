@@ -209,6 +209,11 @@ endif()
 if(onnxruntime_USE_WEBGPU AND NOT onnxruntime_USE_EP_API_ADAPTERS)
   list(APPEND onnxruntime_pybind11_state_static_providers PRIVATE onnxruntime_providers_webgpu)
 endif()
+
+if(onnxruntime_USE_NEUROPILOT)
+  list(APPEND onnxruntime_pybind11_state_static_providers PRIVATE onnxruntime_providers_neuropilot)
+endif()
+
 if(WIN32)
   # onnxruntime_pybind11_state is a DLL
   target_sources(onnxruntime_pybind11_state PRIVATE "${ONNXRUNTIME_ROOT}/core/dll/dllmain.cc")

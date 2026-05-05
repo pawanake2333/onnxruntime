@@ -238,6 +238,10 @@ if (onnxruntime_USE_WEBGPU AND NOT onnxruntime_USE_EP_API_ADAPTERS)
   list(APPEND onnxruntime_INTERNAL_PROVIDER_LIBRARIES onnxruntime_providers_webgpu)
 endif()
 
+if(onnxruntime_USE_NEUROPILOT)
+  list(APPEND onnxruntime_INTERNAL_PROVIDER_LIBRARIES onnxruntime_providers_neuropilot)
+endif()
+
 # This list is a reversed topological ordering of library dependencies.
 # Earlier entries may depend on later ones. Later ones should not depend on earlier ones.
 set(onnxruntime_INTERNAL_LIBRARIES

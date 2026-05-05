@@ -180,6 +180,14 @@ constexpr ProviderInfo kProvidersInPriorityOrder[] =
             false,
 #endif
         },
+        {
+            kNeuropilotExecutionProvider,
+#ifdef USE_NEUROPILOT
+            true,
+#else
+            false,
+#endif
+        },
         {kCpuExecutionProvider, true},  // kCpuExecutionProvider is always last
 };
 

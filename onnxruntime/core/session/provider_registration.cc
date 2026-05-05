@@ -101,7 +101,8 @@ ORT_API_STATUS_IMPL(OrtApis::SessionOptionsAppendExecutionProvider,
     VitisAI,
     CoreML,
     NvTensorRtRtx,  // TensorRt EP for RTX GPUs.
-    MIGraphX
+    MIGraphX,
+    Neuropilot
   };
 
   struct EpToAppend {
@@ -110,7 +111,7 @@ ORT_API_STATUS_IMPL(OrtApis::SessionOptionsAppendExecutionProvider,
     const char* canonical_name = nullptr;
   };
 
-  static std::array<EpToAppend, 13> supported_eps = {
+  static std::array<EpToAppend, 14> supported_eps = {
       EpToAppend{EpID::DML, "DML", kDmlExecutionProvider},
       EpToAppend{EpID::QNN, "QNN", kQnnExecutionProvider},
       EpToAppend{EpID::OpenVINO, "OpenVINO", kOpenVINOExecutionProvider},
@@ -123,7 +124,8 @@ ORT_API_STATUS_IMPL(OrtApis::SessionOptionsAppendExecutionProvider,
       EpToAppend{EpID::VitisAI, "VitisAI", kVitisAIExecutionProvider},
       EpToAppend{EpID::CoreML, "CoreML", kCoreMLExecutionProvider},
       EpToAppend{EpID::NvTensorRtRtx, "NvTensorRtRtx", kNvTensorRTRTXExecutionProvider},
-      EpToAppend{EpID::MIGraphX, "MIGraphX", kMIGraphXExecutionProvider}};
+      EpToAppend{EpID::MIGraphX, "MIGraphX", kMIGraphXExecutionProvider},
+      EpToAppend{EpID::Neuropilot, "Neuropilot", kNeuropilotExecutionProvider}};
 
   ProviderOptions provider_options;
   OrtStatus* status = ParseProviderOptions(provider_options_keys,
@@ -317,6 +319,14 @@ ORT_API_STATUS_IMPL(OrtApis::SessionOptionsAppendExecutionProvider,
       } else {
         status = create_failed_to_load_provider_status();
       }
+#else
+      status = create_not_supported_status();
+#endif
+      break;
+    }
+    case EpID::Neuropilot: {
+#if defined(USE_NEUROPILOT)
+      options->provider_factories.push_back(NeuropilotProviderFactoryCreator::Create(provider_options, &(options->value)));
 #else
       status = create_not_supported_status();
 #endif

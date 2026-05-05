@@ -844,6 +844,10 @@ def add_execution_provider_args(parser: argparse.ArgumentParser) -> None:
         help="Enable DirectX Interop feature for graphics API synchronization.",
     )
 
+    # --- neuropilot ---
+    neuropilot_group = parser.add_argument_group("MTK Neuropilot Runtime Execution Provider")
+    neuropilot_group.add_argument("--use_neuropilot", action="store_true", help="Enable Neuropilot EP.")
+    neuropilot_group.add_argument("--neuropilot_sdk_root", help="Path to Neuropilot SDK directory.")
 
 def add_other_feature_args(parser: argparse.ArgumentParser) -> None:
     """Adds arguments for other miscellaneous features."""

@@ -107,7 +107,9 @@ endif()
 if (onnxruntime_USE_AZURE)
   set(PROVIDERS_AZURE onnxruntime_providers_azure)
 endif()
-
+if(onnxruntime_USE_NEUROPILOT)
+  set(PROVIDERS_NEUROPILOT onnxruntime_providers_neuropilot)
+endif()
 
 if(onnxruntime_USE_SNPE)
   include(onnxruntime_snpe_provider.cmake)
@@ -192,4 +194,8 @@ endif()
 
 if (onnxruntime_USE_AZURE)
   include(onnxruntime_providers_azure.cmake)
+endif()
+
+if(onnxruntime_USE_NEUROPILOT)
+  include(onnxruntime_providers_neuropilot.cmake)
 endif()

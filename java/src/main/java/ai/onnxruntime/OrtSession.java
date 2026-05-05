@@ -1371,6 +1371,18 @@ public class OrtSession implements AutoCloseable {
       addExecutionProvider(webGpuProviderName, providerOptions);
     }
 
+    /**
+     * Adds Neuropilot as an execution backend.
+     *
+     * @param providerOptions Configuration options for the Neuropilot backend. Refer to the Neuropilot
+     *     execution provider's documentation.
+     * @throws OrtException If there was an error in native code.
+     */
+    public void addNeuropilot(Map<String, String> providerOptions) throws OrtException {
+      String neuropilotProviderName = "Neuropilot";
+      addExecutionProvider(neuropilotProviderName, providerOptions);
+    }
+
     private native void setExecutionMode(long apiHandle, long nativeHandle, int mode)
         throws OrtException;
 

@@ -154,6 +154,7 @@ option(onnxruntime_ENABLE_PIX_FOR_WEBGPU_EP "Adding frame present for PIX to cap
 # The following 2 options are only for Windows
 option(onnxruntime_ENABLE_DAWN_BACKEND_VULKAN "Enable Vulkan backend for Dawn (on Windows)" OFF)
 option(onnxruntime_ENABLE_DAWN_BACKEND_D3D12 "Enable D3D12 backend for Dawn (on Windows)" ON)
+option(onnxruntime_USE_NEUROPILOT "Build with NeuroPilot support" OFF)
 
 # Options related to reducing the binary size produced by the build
 # XNNPACK EP requires the internal NHWC contrib ops to be available, so this option must be OFF when onnxruntime_USE_XNNPACK is ON
@@ -1017,6 +1018,9 @@ endif()
 if (onnxruntime_USE_AZURE)
     list(APPEND ORT_PROVIDER_FLAGS  -DUSE_AZURE=1)
     list(APPEND ONNXRUNTIME_PROVIDER_NAMES azure)
+endif()
+if (onnxruntime_USE_NEUROPILOT)
+    list(APPEND ORT_PROVIDER_FLAGS  -DUSE_NEUROPILOT=1)
 endif()
 if (onnxruntime_USE_LOCK_FREE_QUEUE)
     add_compile_definitions(USE_LOCK_FREE_QUEUE)
